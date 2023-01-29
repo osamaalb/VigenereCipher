@@ -1,16 +1,20 @@
 ﻿using NetworksTP1;
 
-string text = "", key = "", controlText = "";
-char[] allowedInputCommands = {'E', 'D', 'B', 'I', 'L'};
+string text = "", key = "", controlText = "", probableWord = "";
+int keyLength = 0, maxKeyLength = 0;
+char[] allowedInputCommands = {'E', 'D', 'K', 'I', 'L', 'B', 'P'};
 
 while (true)
 {
     Console.WriteLine("What do you want to do?\n" +
         "E: encrypt text\n" +
         "D: decrypt text\n" +
-        "B: break encryption\n" +
-        "I: get the index of coincidence\n" +
-        "L: calculate L"
+        "K: calculate possible key length\n" +
+        "I: calculate the index of coincidence\n" +
+        "L: calculate L\n" +
+        "B: break an encryption with know key length\n" +
+        "P: break an encryption by a probable word"
+
     );
     controlText = Console.ReadLine();
 
@@ -34,10 +38,12 @@ while (true)
     } else if (controlText == "D")
     {
         Console.WriteLine("Decrypted text: " + VigenereCipher.decryptText(text, key));
-    } else if (controlText == "B")
+    } else if (controlText == "K")
     {
-        Dictionary<int, int> commonDivisors = VigenereCipher.calculateCommonDevisors(text);
-        Console.WriteLine("Possible key length:");
+        Console.WriteLine("Please enter the maximum key length:");
+        maxKeyLength = int.Parse(Console.ReadLine());
+        Dictionary<int, int> commonDivisors = VigenereCipher.calculateCommonDevisors(text, maxKeyLength);
+        Console.WriteLine("Possible key length values:");
         foreach (var divisor in commonDivisors.Where(p => p.Value > 1).OrderByDescending(p => p.Value))
         {
             Console.WriteLine(divisor.Key + ": " + divisor.Value);
@@ -51,6 +57,20 @@ while (true)
     {
         double L = VigenereCipher.calculateL(text);
         Console.WriteLine("L : " + L);
+    }
+    else if (controlText == "B")
+    {
+        Console.WriteLine("Please enter the key length:");
+        keyLength = int.Parse(Console.ReadLine());
+
+        VigenereCipher.breakEncryption(text, keyLength);
+    }
+    else if (controlText == "P")
+    {
+        Console.WriteLine("Please enter a probable word:");
+        probableWord = Console.ReadLine();
+
+        VigenereCipher.breakEncryptionByProbableWord(text, probableWord);
     }
 
     Console.WriteLine("Do you want to exit? (Y/N)");
