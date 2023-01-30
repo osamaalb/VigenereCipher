@@ -22,6 +22,11 @@ namespace NetworksTP1
     }
     public static class VigenereCipher
     {
+
+        /*
+            Chaque lettre de message initial dans la position i va être chiffrer avec le lettre i % n de la clef où n est la longueur de la clef.
+            Formule de chiffrement : lettre chiffrée = (lettre en clair + lettre de clef choisi) % 26 
+        */
         public static string? encryptText(string originalText, string key)
         {
             string encryptedText = "";
@@ -37,6 +42,10 @@ namespace NetworksTP1
             return encryptedText;
         }
 
+        /*
+            Chaque lettre de message shiffré dans la position i va être déchiffrer avec le lettre i % n de la clef où n est la longueur de la clef.
+            Formule de déchiffrement : lettre déchiffrée = (lettre chiffrée + 26 - lettre de clef choisi) % 26
+        */
         public static string? decryptText(string encryptedText, string key, int offset = 0)
         {
             string originalText = "";
@@ -59,6 +68,12 @@ namespace NetworksTP1
             return originalText;
         }
 
+        /*
+            On cherche les chaines de caractères qui se répètent dans le texte et on stock les valeurs suivants :
+            1- Le nombre de répétition
+            2- Le premier position où on trouve la chaine
+            3- Le deuxième position où on trouve la chaine 
+        */
         public static Dictionary<string, RepeatedSequenceStatistics> getRepeatedSequences(string encryptedText, int maxKeyLength)
         {
             Dictionary<string, RepeatedSequenceStatistics> repeatedSequences = new Dictionary<string, RepeatedSequenceStatistics>();
@@ -84,6 +99,10 @@ namespace NetworksTP1
             return repeatedSequences;
         }
 
+        /*
+            On cherche les diviseurs communs de distance entre le premier et deuxième position de tous les chaines qui se répètent. On fait un count de combien de chaines ce diviseur est commun et on montre les résultats tirés en décroissance.
+            La longueur de clef sera dans les 5 premiers diviseurs.
+        */
         public static Dictionary<int, int> calculateCommonDevisors(string encryptedText, int maxKeyLength)
         {
             Dictionary<int, int> commonDevisors = new Dictionary<int, int>();
@@ -136,6 +155,15 @@ namespace NetworksTP1
             return L;
         }
 
+        /*
+            On calcule les fréquences de tous les lettre pour chaque position de clef.
+            On montre les résultats à l’utilisateur.
+            L’utilisateur décide quelle lettre est le "e".
+            On construit la clef à partir des réponses de l’utilisateur en utilisant la formule suivante :
+	            x: l’entrée de l’utilisateur.
+	            key[i] = x + 26 – 'e' % 26
+            On déchiffre le texte.
+        */
         public static void breakEncryption(string encryptedText, int keyLength)
         {
             if (encryptedText != preProcessString(encryptedText))
@@ -193,6 +221,11 @@ namespace NetworksTP1
             Console.WriteLine("Decrypted text: " + decryptedText);
         }
 
+        /*
+            On déchiffre le texte par le mot probable pour toutes positions possibles qui sont de 0 à n - 1 où n est la longueur de mot probable.
+            On montre à l’utilisateur les chaines de caractères qui se répètent et qui ont la même longueur de mot probable.
+            L’utilisateur va décider quelle est la clef.
+        */
         public static void breakEncryptionByProbableWord(string encryptedText, string probableWord)
         {
             Dictionary<string, int> repeatedSequences = new Dictionary<string, int>();
