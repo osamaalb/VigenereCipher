@@ -12,7 +12,7 @@ while (true)
         "K: calculate possible key length\n" +
         "I: calculate the index of coincidence\n" +
         "L: calculate L\n" +
-        "B: break an encryption with know key length\n" +
+        "B: break an encryption with a known key length\n" +
         "P: break an encryption by a probable word"
 
     );
