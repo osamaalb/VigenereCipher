@@ -158,7 +158,7 @@ namespace NetworksTP1
         /*
             On calcule les fréquences de tous les lettre pour chaque position de clef.
             On montre les résultats à l’utilisateur.
-            L’utilisateur décide quelle lettre est le "e".
+            L’utilisateur décide quelle lettre est le "e" qui est la lettre le plus courant en anglais.
             On construit la clef à partir des réponses de l’utilisateur en utilisant la formule suivante :
 	            x: l’entrée de l’utilisateur.
 	            key[i] = x + 26 – 'e' % 26
